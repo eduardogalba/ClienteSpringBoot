@@ -22,10 +22,10 @@ public class Usuario {
 	private String correo;
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private List<Libro> prestamos = null;
+	private List<Libro> prestamos;
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private List<Historico> devueltos = null;
+	private List<Historico> devueltos;
 
 	private ResourceLink _links;
 
@@ -52,17 +52,14 @@ public class Usuario {
 						"\t nacimiento: %s \n" +
 						"\t correo: %s \n" +
 						"\t link: %s \n" +
-						"\t prestamos: [\n" +
-						"\t %s \n \t ] \n" +
-						"\t devueltos: [\n" +
-						"\t %s \n \t ] \n",
+						(prestamos != null ? "\t prestamos: [\n" + prestamosStr.toString() + "\t ] \n" : "") +
+						(devueltos != null ? "\t devueltos: [\n" + devueltosStr.toString() + "\t ] \n" : ""),
 				usuarioId,
 				nombre,
 				matricula,
 				nacimiento,
 				correo,
-				_links.getSelf().getHref(),
-				prestamosStr.toString(),
-				devueltosStr.toString());
+				_links.getSelf().getHref()
+			);
 	}
 }
