@@ -29,7 +29,7 @@ public class Libro {
                 "\t editorial: %s \n" +
                 "\t volumenes: %d \n" +
                 "\t prestados: %d \n" +
-                "\t link: %s \n", 
+                (_links != null ? "\t link: " + _links.getSelf().getHref() + " \n" : ""), 
                 libroId, 
                 titulo, 
                 autores, 
@@ -37,7 +37,7 @@ public class Libro {
                 isbn, 
                 editorial, 
                 volumenes, 
-                prestados, 
-                _links.getSelf().getHref());
+                prestados
+            );
     }
 }

@@ -51,15 +51,14 @@ public class Usuario {
 						"\t matricula: %s \n" +
 						"\t nacimiento: %s \n" +
 						"\t correo: %s \n" +
-						"\t link: %s \n" +
-						(prestamos != null ? "\t prestamos: [\n" + prestamosStr.toString() + "\t ] \n" : "") +
-						(devueltos != null ? "\t devueltos: [\n" + devueltosStr.toString() + "\t ] \n" : ""),
+						(_links != null ? "\t link: " + _links.getSelf().getHref() + " \n" : "") +
+						(prestamos != null ? "\t prestamos: [\n\n" + prestamosStr.toString() + "\t \n] \n" : "") +
+						(devueltos != null ? "\t devueltos: [\n\n" + devueltosStr.toString() + "\t \n] \n" : ""),
 				usuarioId,
 				nombre,
 				matricula,
 				nacimiento,
-				correo,
-				_links.getSelf().getHref()
+				correo
 			);
 	}
 }
