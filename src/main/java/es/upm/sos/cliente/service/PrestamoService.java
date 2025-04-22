@@ -18,16 +18,16 @@ public class PrestamoService {
                 try {
                         Prestamo libro = webClient.get()
                                         .uri("/usuarios/{usuarioId}/libros/{libroId}", usuarioId, libroId)
-                                        .retrieve()
-                                        .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                                                        .then(Mono.empty()))
-                                        .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                                                        .then(Mono.empty()))
-                                        .bodyToMono(Prestamo.class)
+                                        .exchangeToMono(response -> {
+                                                sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                if (response.statusCode().is2xxSuccessful()) {
+                                                    return response.bodyToMono(Prestamo.class);
+                                                } else {
+                                                    return response.bodyToMono(String.class)
+                                                            .flatMap(body -> Mono.error(new RuntimeException(
+                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                }
+                                            })
                                         .block(); // Usamos block() para obtener la respuesta de forma síncrona
 
                         if (libro == null) {
@@ -62,6 +62,7 @@ public class PrestamoService {
                                                         .then(Mono.empty()))
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .map(response -> {
+                                                sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
                                                 if (response.getHeaders().getLocation() != null) {
                                                         return response.getHeaders().getLocation().toString();
                                                 } else {
@@ -95,6 +96,9 @@ public class PrestamoService {
                                                         .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
                                                         .then(Mono.empty()))
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
+                                        .doOnNext(response -> {
+                                                sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                                        })
                                         .block(); // Bloquea hasta recibir la respuesta
                 } catch (RuntimeException e) {
                         sb.append(e.getMessage());
@@ -117,6 +121,9 @@ public class PrestamoService {
                                                         .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
                                                         .then(Mono.empty()))
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
+                                        .doOnNext(response -> {
+                                                sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                                        })
                                         .block();// Bloquea para obtener el resultado sincrónicamente
                 } catch (RuntimeException e) {
                         sb.append(e.getMessage());
@@ -130,16 +137,16 @@ public class PrestamoService {
                         PagePrestamo libros = webClient.get()
                                         .uri("/usuarios/{usuarioId}/prestamos?page={page}&size={size}", usuarioId, page,
                                                         size)
-                                        .retrieve()
-                                        .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                                                        .then(Mono.empty()))
-                                        .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                                                        .then(Mono.empty()))
-                                        .bodyToMono(PagePrestamo.class)
+                                        .exchangeToMono(response -> {
+                                                sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                if (response.statusCode().is2xxSuccessful()) {
+                                                    return response.bodyToMono(PagePrestamo.class);
+                                                } else {
+                                                    return response.bodyToMono(String.class)
+                                                            .flatMap(body -> Mono.error(new RuntimeException(
+                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                }
+                                            })
                                         .block();
 
                         sb.append(libros.toString());
@@ -155,17 +162,17 @@ public class PrestamoService {
                         PagePrestamo libros = webClient.get()
                                         .uri("/usuarios/{usuarioId}/prestamos?fechaPrestamo={fecha}&page={page}&size={size}", fechaPrestamo, usuarioId, page,
                                                         size)
-                                        .retrieve()
-                                        .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                                                        .then(Mono.empty()))
-                                        .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                                                        .then(Mono.empty()))
-                                        .bodyToMono(PagePrestamo.class)
-                                        .block();
+                                                        .exchangeToMono(response -> {
+                                                                sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                                if (response.statusCode().is2xxSuccessful()) {
+                                                                    return response.bodyToMono(PagePrestamo.class);
+                                                                } else {
+                                                                    return response.bodyToMono(String.class)
+                                                                            .flatMap(body -> Mono.error(new RuntimeException(
+                                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                                }
+                                                            })
+                                                        .block();
 
                         sb.append(libros.toString());
                 } catch (RuntimeException e) {

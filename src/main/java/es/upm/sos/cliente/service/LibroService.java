@@ -20,16 +20,16 @@ public class LibroService {
         try {
             Libro libro = webClient.get()
                     .uri("/libros/" + libroId)
-                    .retrieve()
-                    .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                            .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                            .then(Mono.empty()))
-                    .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                            .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                            .then(Mono.empty()))
-                    .bodyToMono(Libro.class)
+                    .exchangeToMono(response -> {
+                        sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                        if (response.statusCode().is2xxSuccessful()) {
+                            return response.bodyToMono(Libro.class);
+                        } else {
+                            return response.bodyToMono(String.class)
+                                    .flatMap(body -> Mono.error(new RuntimeException(
+                                            String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                        }
+                    })
                     .block(); // Usamos block() para obtener la respuesta de forma síncrona
 
             if (libro == null) {
@@ -73,6 +73,7 @@ public class LibroService {
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                     .map(response -> {
+                        sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
                         if (response.getHeaders().getLocation() != null) {
                             return response.getHeaders().getLocation().toString();
                         } else {
@@ -120,6 +121,9 @@ public class LibroService {
                             .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
+                    .doOnNext(response -> {
+                        sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                    })
                     .block(); // Bloquea hasta recibir la respuesta
         } catch (RuntimeException e) {
             sb.append(e.getMessage());
@@ -142,6 +146,9 @@ public class LibroService {
                             .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
+                    .doOnNext(response -> {
+                        sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                    })
                     .block();// Bloquea para obtener el resultado sincrónicamente
         } catch (RuntimeException e) {
             sb.append(e.getMessage());
@@ -154,16 +161,16 @@ public class LibroService {
         try {
             PageLibro libros = webClient.get()
                     .uri("/libros?page={page}&size={size}", page, size)
-                    .retrieve()
-                    .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                            .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                            .then(Mono.empty()))
-                    .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                            .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                            .then(Mono.empty()))
-                    .bodyToMono(PageLibro.class)
+                    .exchangeToMono(response -> {
+                        sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                        if (response.statusCode().is2xxSuccessful()) {
+                            return response.bodyToMono(PageLibro.class);
+                        } else {
+                            return response.bodyToMono(String.class)
+                                    .flatMap(body -> Mono.error(new RuntimeException(
+                                            String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                        }
+                    })
                     .block();
 
             if (libros == null) {
@@ -182,16 +189,16 @@ public class LibroService {
         try {
             PageLibro libros = webClient.get()
                     .uri("/libros?pattern={pattern}&page={page}&size={size}", pattern, page, size)
-                    .retrieve()
-                    .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                            .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                            .then(Mono.empty()))
-                    .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                            .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                            .then(Mono.empty()))
-                    .bodyToMono(PageLibro.class)
+                    .exchangeToMono(response -> {
+                        sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                        if (response.statusCode().is2xxSuccessful()) {
+                            return response.bodyToMono(PageLibro.class);
+                        } else {
+                            return response.bodyToMono(String.class)
+                                    .flatMap(body -> Mono.error(new RuntimeException(
+                                            String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                        }
+                    })
                     .block();
 
             if (libros == null) {
@@ -210,16 +217,16 @@ public class LibroService {
         try {
             PageLibro libros = webClient.get()
                     .uri("/libros?disponible=true&page={page}&size={size}", page, size)
-                    .retrieve()
-                    .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                            .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                            .then(Mono.empty()))
-                    .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                            .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
-                            .then(Mono.empty()))
-                    .bodyToMono(PageLibro.class)
+                    .exchangeToMono(response -> {
+                        sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                        if (response.statusCode().is2xxSuccessful()) {
+                            return response.bodyToMono(PageLibro.class);
+                        } else {
+                            return response.bodyToMono(String.class)
+                                    .flatMap(body -> Mono.error(new RuntimeException(
+                                            String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                        }
+                    })
                     .block();
 
             if (libros == null) {
