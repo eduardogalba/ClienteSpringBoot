@@ -17,9 +17,9 @@ public class PageHistorico {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(_embedded.toString());
+        sb.append((_embedded == null) ? "" : _embedded.toString());
         sb.append("\n\t************************************************\n");
-        sb.append(_links.toString());
+        sb.append((_links == null) ? "" : _links.toString());
         sb.append("\n\t************************************************\n");
         sb.append(page.toString());
         return sb.toString();
