@@ -13,6 +13,7 @@ public class Historicos {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Historicos: \n");
+        sb.append("**********************************************************\n");
         for (Historico historico : historicoList) {
             sb.append(historico.toString());
         }

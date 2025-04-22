@@ -12,6 +12,7 @@ public class Prestamos {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Prestamos: \n");
+        sb.append("**********************************************************\n");
         for (Prestamo prestamo : prestamoList) {
             sb.append(prestamo.toString());
         }

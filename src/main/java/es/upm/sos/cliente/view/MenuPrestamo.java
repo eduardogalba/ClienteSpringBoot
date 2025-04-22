@@ -83,7 +83,7 @@ public class MenuPrestamo {
         System.out.print("Introduce el tamaño de la página: ");
         int size = Integer.parseInt(scanner.nextLine());
 
-        System.out.println("¿Desea filtrar por fecha? (s/n)");
+        System.out.print("¿Desea filtrar por fecha? (s/n)");
         String respuesta = scanner.nextLine();
         if (respuesta.equalsIgnoreCase("s")) {
             System.out.print("Introduce la fecha (yyyy-MM-dd): ");

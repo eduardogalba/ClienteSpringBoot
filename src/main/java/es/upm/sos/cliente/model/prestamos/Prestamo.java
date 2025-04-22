@@ -28,6 +28,7 @@ public class Prestamo {
 	public String toString() {
 		return String.format(
 				"Prestamo: \n" + 
+                "\t************************************************\n" + 
 				"\t %s \n" +
 				"\t %s \n" +
 				"\t %s \n" +

@@ -45,15 +45,16 @@ public class Usuario {
 			}
 		}
 		return String.format(
-				"Usuario: \n" +
-						"\t usuarioId: %d \n" +
-						"\t nombre: %s \n" +
-						"\t matricula: %s \n" +
-						"\t nacimiento: %s \n" +
-						"\t correo: %s \n" +
-						(_links != null ? "\t link: " + _links.getSelf().getHref() + " \n" : "") +
-						(prestamos != null ? "\t prestamos: [\n\n" + prestamosStr.toString() + "\t \n] \n" : "") +
-						(devueltos != null ? "\t devueltos: [\n\n" + devueltosStr.toString() + "\t \n] \n" : ""),
+				"Usuario: \n" + 
+                "\t************************************************\n" +
+				"\t usuarioId: %d \n" +
+				"\t nombre: %s \n" +
+				"\t matricula: %s \n" +
+				"\t nacimiento: %s \n" +
+				"\t correo: %s \n" +
+				(_links != null ? "\t link: " + _links.getSelf().getHref() + " \n" : "") +
+				(prestamos != null ? "\t prestamos: [\n\n\t" + prestamosStr.toString() + "\n\t ] \n" : "") +
+				(devueltos != null ? "\t devueltos: [\n\n\t" + devueltosStr.toString() + "\n\t ] \n" : ""),
 				usuarioId,
 				nombre,
 				matricula,

@@ -13,6 +13,7 @@ public class Libros {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Libros: \n");
+        sb.append("**********************************************************\n");
         for (Libro libro : libroList) {
             sb.append(libro.toString());
         }

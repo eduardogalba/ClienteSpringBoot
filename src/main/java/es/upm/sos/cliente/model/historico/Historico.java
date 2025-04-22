@@ -30,14 +30,15 @@ public class Historico {
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return String.format(
-                "Historico: \n" +
-                        "\t id de historico: %d \n" +
-                        "\t id de usuario: %d \n" +
-                        "\t titulo del libro: %s \n" +
-                        "\t isbn del libro: %s \n" +
-                        "\t fecha prestamo: %s \n" +
-                        "\t fecha devolucion: %s \n" +
-                        "\t devuelto: %b \n",
+                "Historico: \n" + 
+                "\t************************************************\n" +
+                "\t id de historico: %d \n" +
+                "\t id de usuario: %d \n" +
+                "\t titulo del libro: %s \n" +
+                "\t isbn del libro: %s \n" +
+                "\t fecha prestamo: %s \n" +
+                "\t fecha devolucion: %s \n" +
+                "\t devuelto: %b \n",
                 historicoId,
                 usuarioId,
                 tituloLibro,

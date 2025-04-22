@@ -20,6 +20,7 @@ public class PrestamoService {
                                         .uri("/usuarios/{usuarioId}/libros/{libroId}", usuarioId, libroId)
                                         .exchangeToMono(response -> {
                                                 sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(Prestamo.class);
                                                 } else {
@@ -63,6 +64,7 @@ public class PrestamoService {
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .map(response -> {
                                                 sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                                 if (response.getHeaders().getLocation() != null) {
                                                         return response.getHeaders().getLocation().toString();
                                                 } else {
@@ -98,6 +100,7 @@ public class PrestamoService {
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .doOnNext(response -> {
                                                 sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                         })
                                         .block(); // Bloquea hasta recibir la respuesta
                 } catch (RuntimeException e) {
@@ -123,6 +126,7 @@ public class PrestamoService {
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .doOnNext(response -> {
                                                 sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                         })
                                         .block();// Bloquea para obtener el resultado sincrónicamente
                 } catch (RuntimeException e) {
@@ -139,6 +143,7 @@ public class PrestamoService {
                                                         size)
                                         .exchangeToMono(response -> {
                                                 sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(PagePrestamo.class);
                                                 } else {
@@ -164,6 +169,7 @@ public class PrestamoService {
                                                         size)
                                                         .exchangeToMono(response -> {
                                                                 sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                                sb.append("**********************************************************\n");
                                                                 if (response.statusCode().is2xxSuccessful()) {
                                                                     return response.bodyToMono(PagePrestamo.class);
                                                                 } else {

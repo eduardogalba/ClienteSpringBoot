@@ -25,6 +25,7 @@ public class UsuarioService {
                                         .uri("/usuarios/" + usuarioId)
                                         .exchangeToMono(response -> {
                                                 sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(Usuario.class);
                                                 } else {
@@ -82,6 +83,7 @@ public class UsuarioService {
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .map(response -> {
                                                 sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                                 if (response.getHeaders().getLocation() != null) {
                                                         return response.getHeaders().getLocation().toString();
                                                 } else {
@@ -135,6 +137,7 @@ public class UsuarioService {
                                         .toBodilessEntity()
                                         .doOnNext(response -> {
                                                 sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                         })
                                         .block(); // Bloquea hasta recibir la respuesta
 
@@ -166,6 +169,7 @@ public class UsuarioService {
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .doOnNext(response -> {
                                                 sb.append("Código HTTP: ").append(response.getStatusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                         })
                                         .block();// Bloquea para obtener el resultado sincrónicamente
                 } catch (RuntimeException e) {
@@ -181,6 +185,7 @@ public class UsuarioService {
                                         .uri("/usuarios?page={page}&size={size}", page, size)
                                         .exchangeToMono(response -> {
                                                 sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(PageUsuario.class);
                                                 } else {
@@ -205,6 +210,7 @@ public class UsuarioService {
                                         .uri("/usuarios/{usuarioId}/actividad", usuarioId)
                                         .exchangeToMono(response -> {
                                                 sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(Usuario.class);
                                                 } else {
@@ -233,6 +239,7 @@ public class UsuarioService {
                                         .uri("/usuarios/{usuarioId}/historico?page={page}&size={size}", usuarioId, page, size)
                                         .exchangeToMono(response -> {
                                                 sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
+                                                sb.append("**********************************************************\n");
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(PageHistorico.class);
                                                 } else {

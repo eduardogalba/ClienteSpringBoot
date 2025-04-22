@@ -13,6 +13,7 @@ public class Usuarios {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Usuarios: \n");
+        sb.append("**********************************************************\n");
         for (Usuario usuario : usuarioList) {
             sb.append(usuario.toString());
         }

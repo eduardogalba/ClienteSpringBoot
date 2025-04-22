@@ -21,7 +21,8 @@ public class Libro {
     public String toString() {
         return String.format(
                 "Libro: \n" + 
-                "\t id: %d \n" +
+                "\t************************************************\n" +
+                "\t libroId: %d \n" +
                 "\t titulo: %s \n" +
                 "\t autores: %s \n" +
                 "\t edicion: %s \n" +
