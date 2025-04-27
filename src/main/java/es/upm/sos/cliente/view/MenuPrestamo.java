@@ -1,6 +1,8 @@
 package es.upm.sos.cliente.view;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import es.upm.sos.cliente.controller.Controller;
 
@@ -83,12 +85,27 @@ public class MenuPrestamo {
         System.out.print("Introduce el tamaño de la página: ");
         int size = Integer.parseInt(scanner.nextLine());
 
-        System.out.print("¿Desea filtrar por fecha? (s/n)");
+        System.out.print("¿Desea filtrar por fecha? (s/n): ");
         String respuesta = scanner.nextLine();
         if (respuesta.equalsIgnoreCase("s")) {
-            System.out.print("Introduce la fecha (yyyy-MM-dd): ");
-            String fecha = scanner.nextLine();
-            System.out.print(controller.listarPrestamos(usuarioId, fecha, page, size));
+            System.out.println("Introduce un rango de fechas (yyyy-MM-dd) [INTRO para ignorar] ");
+            System.out.print("Introduce la fecha de inicio (dd/MM/yyyy): ");
+
+            String startDate = scanner.nextLine();
+            if (!isValidDate(startDate)) {
+                System.out.println("Fecha de inicio no válida. Se ignorará.");
+                startDate = "";
+            }
+
+            System.out.print("Introduce la fecha de fin (dd/MM/yyyy): ");
+
+            String endDate = scanner.nextLine();
+            if (!isValidDate(endDate)) {
+                System.out.println("Fecha de fin no válida. Se ignorará.");
+                endDate = "";
+            }
+            
+            System.out.print(controller.listarPrestamos(usuarioId, startDate, endDate, page, size));
         } else {
             System.out.print(controller.listarPrestamos(usuarioId, page, size));
         }
@@ -102,6 +119,12 @@ public class MenuPrestamo {
         System.out.print(controller.buscarPrestamo(usuarioId, libroId));
     }
 
+    private boolean isValidDate(String date) {
+        String datePattern = "^(\\d{2})/(\\d{2})/(\\d{4})$";
+        Pattern pattern = Pattern.compile(datePattern);
+        Matcher matcher = pattern.matcher(date);
+        return matcher.matches();
+    }
 
     public void setController(Controller controller) {
         this.controller = controller;
