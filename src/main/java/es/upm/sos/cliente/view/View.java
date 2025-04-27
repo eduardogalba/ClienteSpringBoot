@@ -51,6 +51,9 @@ public class View {
             }
         } catch (NoSuchElementException e) {
             System.out.println("Fin del programa. ¡Hasta luego!");
+        } catch (Exception e) {
+            System.out.println("ERROR INESPERADO: " + e.getMessage());
+            desplegarMenuPrincipal();
         } finally {
             scanner.close();
         }
