@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import es.upm.sos.cliente.model.ErrorMessage;
 import es.upm.sos.cliente.model.prestamos.PagePrestamo;
 import es.upm.sos.cliente.model.prestamos.Prestamo;
 import es.upm.sos.cliente.model.prestamos.PrestamoId;
@@ -24,9 +25,9 @@ public class PrestamoService {
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(Prestamo.class);
                                                 } else {
-                                                    return response.bodyToMono(String.class)
+                                                    return response.bodyToMono(ErrorMessage.class)
                                                             .flatMap(body -> Mono.error(new RuntimeException(
-                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                                                 }
                                             })
                                         .block(); // Usamos block() para obtener la respuesta de forma síncrona
@@ -54,12 +55,12 @@ public class PrestamoService {
                                         .body(Mono.just(prestamo), PrestamoId.class)
                                         .retrieve()
                                         .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                                                        .bodyToMono(ErrorMessage.class)
+                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                                                         .then(Mono.empty()))
                                         .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                                                        .bodyToMono(ErrorMessage.class)
+                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                                                         .then(Mono.empty()))
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .map(response -> {
@@ -90,12 +91,12 @@ public class PrestamoService {
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .retrieve()
                                         .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                                                        .bodyToMono(ErrorMessage.class)
+                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                                                         .then(Mono.empty()))
                                         .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                                                        .bodyToMono(ErrorMessage.class)
+                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                                                         .then(Mono.empty()))
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .doOnNext(response -> {
@@ -116,12 +117,12 @@ public class PrestamoService {
                                         .uri("/usuarios/{usuarioId}/libros/{id}", usuarioId, libroId)
                                         .retrieve()
                                         .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                                                        .bodyToMono(ErrorMessage.class)
+                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                                                         .then(Mono.empty()))
                                         .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
-                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                                                        .bodyToMono(ErrorMessage.class)
+                                                        .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                                                         .then(Mono.empty()))
                                         .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                                         .doOnNext(response -> {
@@ -147,9 +148,9 @@ public class PrestamoService {
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(PagePrestamo.class);
                                                 } else {
-                                                    return response.bodyToMono(String.class)
+                                                    return response.bodyToMono(ErrorMessage.class)
                                                             .flatMap(body -> Mono.error(new RuntimeException(
-                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                                                 }
                                             })
                                         .block();
@@ -161,21 +162,20 @@ public class PrestamoService {
                 return sb.toString();
         }
 
-        public String getPrestamos(int usuarioId, String fechaPrestamo, int page, int size) {
+        public String getPrestamos(int usuarioId, String start, String end, int page, int size) {
                 StringBuilder sb = new StringBuilder();
                 try {
                         PagePrestamo libros = webClient.get()
-                                        .uri("/usuarios/{usuarioId}/prestamos?fechaPrestamo={fecha}&page={page}&size={size}", fechaPrestamo, usuarioId, page,
-                                                        size)
+                                        .uri("/usuarios/{usuarioId}/prestamos?startDate={start}&endDate={end}&page={page}&size={size}", usuarioId, start, end, page, size)
                                                         .exchangeToMono(response -> {
                                                                 sb.append("Código HTTP: ").append(response.statusCode().value()).append("\n");
                                                                 sb.append("**********************************************************\n");
                                                                 if (response.statusCode().is2xxSuccessful()) {
                                                                     return response.bodyToMono(PagePrestamo.class);
                                                                 } else {
-                                                                    return response.bodyToMono(String.class)
+                                                                    return response.bodyToMono(ErrorMessage.class)
                                                                             .flatMap(body -> Mono.error(new RuntimeException(
-                                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                                                                 }
                                                             })
                                                         .block();

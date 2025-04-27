@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import es.upm.sos.cliente.model.ErrorMessage;
+
 import es.upm.sos.cliente.model.historico.PageHistorico;
 import es.upm.sos.cliente.model.usuarios.PageUsuario;
 import es.upm.sos.cliente.model.usuarios.Usuario;
@@ -29,9 +31,9 @@ public class UsuarioService {
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(Usuario.class);
                                                 } else {
-                                                    return response.bodyToMono(String.class)
+                                                    return response.bodyToMono(ErrorMessage.class)
                                                             .flatMap(body -> Mono.error(new RuntimeException(
-                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                                                 }
                                             })
                                         .block(); // Usamos block() para obtener la respuesta de forma síncrona
@@ -189,9 +191,9 @@ public class UsuarioService {
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(PageUsuario.class);
                                                 } else {
-                                                    return response.bodyToMono(String.class)
+                                                    return response.bodyToMono(ErrorMessage.class)
                                                             .flatMap(body -> Mono.error(new RuntimeException(
-                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                                                 }
                                             })
                                         .block();
@@ -214,9 +216,9 @@ public class UsuarioService {
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(Usuario.class);
                                                 } else {
-                                                    return response.bodyToMono(String.class)
+                                                    return response.bodyToMono(ErrorMessage.class)
                                                             .flatMap(body -> Mono.error(new RuntimeException(
-                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                                                 }
                                             })
                                         .block();
@@ -243,9 +245,9 @@ public class UsuarioService {
                                                 if (response.statusCode().is2xxSuccessful()) {
                                                     return response.bodyToMono(PageHistorico.class);
                                                 } else {
-                                                    return response.bodyToMono(String.class)
+                                                    return response.bodyToMono(ErrorMessage.class)
                                                             .flatMap(body -> Mono.error(new RuntimeException(
-                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                                                    String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                                                 }
                                             })
                                         .block();

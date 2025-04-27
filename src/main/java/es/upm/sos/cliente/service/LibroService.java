@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
+
 import es.upm.sos.cliente.model.libros.PageLibro;
+import es.upm.sos.cliente.model.ErrorMessage;
 import es.upm.sos.cliente.model.libros.Libro;
 import reactor.core.publisher.Mono;
 
@@ -26,9 +29,9 @@ public class LibroService {
                         if (response.statusCode().is2xxSuccessful()) {
                             return response.bodyToMono(Libro.class);
                         } else {
-                            return response.bodyToMono(String.class)
+                            return response.bodyToMono(ErrorMessage.class)
                                     .flatMap(body -> Mono.error(new RuntimeException(
-                                            String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                            String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                         }
                     })
                     .block(); // Usamos block() para obtener la respuesta de forma síncrona
@@ -66,11 +69,11 @@ public class LibroService {
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> response
                             .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .onStatus(HttpStatusCode::is5xxServerError, response -> response
                             .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                     .map(response -> {
@@ -116,11 +119,11 @@ public class LibroService {
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> response
                             .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .onStatus(HttpStatusCode::is5xxServerError, response -> response
                             .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                     .doOnNext(response -> {
@@ -142,11 +145,11 @@ public class LibroService {
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> response
                             .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .onStatus(HttpStatusCode::is5xxServerError, response -> response
                             .bodyToMono(String.class)
-                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body)))
+                            .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
                     .doOnNext(response -> {
@@ -171,9 +174,9 @@ public class LibroService {
                         if (response.statusCode().is2xxSuccessful()) {
                             return response.bodyToMono(PageLibro.class);
                         } else {
-                            return response.bodyToMono(String.class)
+                            return response.bodyToMono(ErrorMessage.class)
                                     .flatMap(body -> Mono.error(new RuntimeException(
-                                            String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                            String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                         }
                     })
                     .block();
@@ -200,9 +203,9 @@ public class LibroService {
                         if (response.statusCode().is2xxSuccessful()) {
                             return response.bodyToMono(PageLibro.class);
                         } else {
-                            return response.bodyToMono(String.class)
+                            return response.bodyToMono(ErrorMessage.class)
                                     .flatMap(body -> Mono.error(new RuntimeException(
-                                            String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                            String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                         }
                     })
                     .block();
@@ -229,9 +232,9 @@ public class LibroService {
                         if (response.statusCode().is2xxSuccessful()) {
                             return response.bodyToMono(PageLibro.class);
                         } else {
-                            return response.bodyToMono(String.class)
+                            return response.bodyToMono(ErrorMessage.class)
                                     .flatMap(body -> Mono.error(new RuntimeException(
-                                            String.format(HTTP_ERROR, response.statusCode().value(), body))));
+                                            String.format(HTTP_ERROR, response.statusCode().value(), body.toString()))));
                         }
                     })
                     .block();

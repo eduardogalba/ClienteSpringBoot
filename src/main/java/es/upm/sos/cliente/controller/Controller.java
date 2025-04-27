@@ -86,8 +86,8 @@ public class Controller {
         return prestamoService.getPrestamos(usuarioId, page, size);
     }
 
-    public String listarPrestamos(int usuarioId, String fecha, int page, int size) {
-        return prestamoService.getPrestamos(usuarioId, fecha, page, size);
+    public String listarPrestamos(int usuarioId, String start, String end, int page, int size) {
+        return prestamoService.getPrestamos(usuarioId, start, end, page, size);
     }
 
     public String actividadUsuario(int usuarioId) {
