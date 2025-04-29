@@ -16,11 +16,11 @@ public class MenuPrestamo {
 
     public void desplegarMenu() {
         System.out.println("\nSeleccione una opción:");
-        System.out.println("\t1. Buscar prestamo");
-        System.out.println("\t2. Crear prestamo");
-        System.out.println("\t3. Modificar prestamo");
-        System.out.println("\t4. Eliminar prestamo");
-        System.out.println("\t5. Listar prestamos");
+        System.out.println("\t1. Buscar préstamo");
+        System.out.println("\t2. Crear préstamo");
+        System.out.println("\t3. Modificar préstamo");
+        System.out.println("\t4. Eliminar préstamo");
+        System.out.println("\t5. Listar préstamos");
         System.out.println("Ctrl + C para salir\t r Retroceder");
 
         String opcion = scanner.nextLine();
