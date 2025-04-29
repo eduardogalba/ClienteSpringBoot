@@ -74,7 +74,7 @@ public class MenuPrestamo {
         int usuarioId = Integer.parseInt(scanner.nextLine());
         System.out.print("Introduce el ID del libro: ");
         int libroId = Integer.parseInt(scanner.nextLine());
-        controller.eliminarPrestamo(usuarioId, libroId);
+        System.out.print(controller.eliminarPrestamo(usuarioId, libroId));
     }
 
     private void listarPrestamos() {
