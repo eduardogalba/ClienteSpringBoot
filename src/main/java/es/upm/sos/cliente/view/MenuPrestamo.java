@@ -88,7 +88,7 @@ public class MenuPrestamo {
         System.out.print("¿Desea filtrar por fecha? (s/n): ");
         String respuesta = scanner.nextLine();
         if (respuesta.equalsIgnoreCase("s")) {
-            System.out.println("Introduce un rango de fechas (yyyy-MM-dd) [INTRO para ignorar] ");
+            System.out.println("Introduce un rango de fechas (dd/MM/yyyy) [INTRO para ignorar] ");
             System.out.print("Introduce la fecha de inicio (dd/MM/yyyy): ");
 
             String startDate = scanner.nextLine();
