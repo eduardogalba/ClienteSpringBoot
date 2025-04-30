@@ -15,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario {
-	private int usuarioId;
+	private Integer usuarioId;
 	private String nombre;
 	private String matricula;
 	private Date nacimiento;

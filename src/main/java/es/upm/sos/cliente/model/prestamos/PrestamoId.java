@@ -6,8 +6,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PrestamoId {
-    private int usuarioId;
-    private int libroId;
+    private Integer usuarioId;
+    private Integer libroId;
 
     @Override
     public String toString() {
