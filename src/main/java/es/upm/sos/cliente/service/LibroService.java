@@ -68,11 +68,11 @@ public class LibroService {
                     .body(Mono.just(libro), Libro.class)
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                            .bodyToMono(String.class)
+                            .bodyToMono(ErrorMessage.class)
                             .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                            .bodyToMono(String.class)
+                            .bodyToMono(ErrorMessage.class)
                             .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
@@ -118,11 +118,11 @@ public class LibroService {
                     .body(Mono.just(libro), Libro.class)
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                            .bodyToMono(String.class)
+                            .bodyToMono(ErrorMessage.class)
                             .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                            .bodyToMono(String.class)
+                            .bodyToMono(ErrorMessage.class)
                             .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo
@@ -144,11 +144,11 @@ public class LibroService {
                     .uri("/libros/{id}", libroId)
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                            .bodyToMono(String.class)
+                            .bodyToMono(ErrorMessage.class)
                             .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                            .bodyToMono(String.class)
+                            .bodyToMono(ErrorMessage.class)
                             .doOnNext(body -> sb.append(String.format(HTTP_ERROR, response.statusCode().value(), body.toString())))
                             .then(Mono.empty()))
                     .toBodilessEntity() // Obtiene solo la respuesta HTTP sin cuerpo

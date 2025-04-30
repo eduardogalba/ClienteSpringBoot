@@ -73,12 +73,12 @@ public class UsuarioService {
                                         .body(Mono.just(usuario), Usuario.class)
                                         .retrieve()
                                         .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
+                                                        .bodyToMono(ErrorMessage.class)
                                                         .doOnNext(body -> sb.append(String.format(HTTP_ERROR,
                                                                         response.statusCode().value(), body)))
                                                         .then(Mono.empty()))
                                         .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
+                                                        .bodyToMono(ErrorMessage.class)
                                                         .doOnNext(body -> sb.append(String.format(HTTP_ERROR,
                                                                         response.statusCode().value(), body)))
                                                         .then(Mono.empty()))
@@ -127,12 +127,12 @@ public class UsuarioService {
                                         .body(Mono.just(usuario), Usuario.class)
                                         .retrieve()
                                         .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
+                                                        .bodyToMono(ErrorMessage.class)
                                                         .doOnNext(body -> sb.append(String.format(HTTP_ERROR,
                                                                         response.statusCode().value(), body)))
                                                         .then(Mono.empty()))
                                         .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
+                                                        .bodyToMono(ErrorMessage.class)
                                                         .doOnNext(body -> sb.append(String.format(HTTP_ERROR,
                                                                         response.statusCode().value(), body)))
                                                         .then(Mono.empty()))
@@ -157,13 +157,13 @@ public class UsuarioService {
                                         .uri("/usuarios/{id}", usuarioId)
                                         .retrieve()
                                         .onStatus(HttpStatusCode::is4xxClientError, response -> response
-                                                        .bodyToMono(String.class)
+                                                        .bodyToMono(ErrorMessage.class)
                                                         .doOnNext(body -> sb.append(String.format(HTTP_ERROR,
                                                                         response.statusCode().value(), body)))
                                                         .then(Mono.empty()) // Propagate the error
                                         )
                                         .onStatus(HttpStatusCode::is5xxServerError, response -> response
-                                                        .bodyToMono(String.class)
+                                                        .bodyToMono(ErrorMessage.class)
                                                         .doOnNext(body -> sb.append(String.format(HTTP_ERROR,
                                                                         response.statusCode().value(), body)))
                                                         .then(Mono.empty()) // Propagate the error
